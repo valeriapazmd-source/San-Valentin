@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Martina Sayén, mi amorcito 💖</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+      background-color: #fff0f5;
+      overflow: hidden; /* para que los corazones no generen scroll */
+    }
+    h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    #si, #no {
+      font-size: 20px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+      position: relative;
+      z-index: 2;
+    }
+    #si {
+      background-color: pink;
+    }
+    #no {
+      background-color: lightgray;
+    }
+    #mensaje {
+      margin-top: 20px;
+      font-size: 20px;
+      color: red;
+      position: relative;
+      z-index: 2;
+    }
+    #gif {
+      margin-top: 20px;
+      display: none;
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeIn 1.5s ease-in-out;
+      position: relative;
+      z-index: 2;
+    }
+    #reset {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      font-size: 12px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: lightblue;
+      cursor: pointer;
+      display: none;
+      z-index: 2;
+    }
+    /* Animación suave */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    /* Ajustes para pantallas pequeñas */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 22px;
+      }
+      #si, #no {
+        font-size: 18px;
+        display: block;
+        width: 100%;
+        max-width: 250px;
+        margin: 10px auto;
+      }
+      #mensaje {
+        font-size: 18px;
+      }
+    }
+    /* Corazones flotando */
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      color: red;
+      font-size: 24px;
+      animation: floatUp 6s linear infinite;
+      z-index: 1;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="pregunta">Martina Sayén, mi amorcito, ¿quieres ser mi San Valentín? 💖</h1>
+  <button id="si">OBVIO TE AMO</button>
+  <button id="no">mmmm déjame pensarlo</button>
+  <div id="mensaje"></div>
+  <img id="gif" src="" alt="Celebración">
+  <button id="reset">¿quieres ver que pasaba si decías no?</button>
+
+  <!-- corazones -->
+  <div id="hearts"></div>
+
+  <script>
+    let siButton = document.getElementById("si");
+    let noButton = document.getElementById("no");
+    let mensaje = document.getElementById("mensaje");
+    let gif = document.getElementById("gif");
+    let resetButton = document.getElementById("reset");
+    let sizeSi = 20;
+    let sizeNo = 20;
+    let noClicks = 0;
+
+    // Estado inicial
+    function resetPage() {
+      mensaje.textContent = "";
+      gif.style.display = "none";
+      gif.src = "";
+      siButton.style.display = "inline-block";
+      noButton.style.display = "inline-block";
+      siButton.textContent = "OBVIO TE AMO";
+      noButton.textContent = "mmmm déjame pensarlo";
+      siButton.style.fontSize = "20px";
+      noButton.style.fontSize = "20px";
+      resetButton.style.display = "none";
+      noClicks = 0;
+      sizeSi = 20;
+      sizeNo = 20;
+      siButton.style.position = "static";
+      siButton.style.width = "auto";
+      siButton.style.height = "auto";
+    }
+
+    siButton.addEventListener("click", () => {
+      mensaje.textContent = "YUJUUU!!! Soy muy feliz de que seamos valentines oficiales <3 te amo poto";
+      gif.src = "https://media.tenor.com/3dw0Zqae42UAAAAM/excited-peter-griffin.gif";
+      gif.style.display = "block";
+      siButton.style.display = "none";
+      noButton.style.display = "none";
+      resetButton.style.display = "block";
+    });
+
+    noButton.addEventListener("click", () => {
+      noClicks++;
+      sizeSi += 10;
+      sizeNo -= 2;
+      siButton.style.fontSize = sizeSi + "px";
+      noButton.style.fontSize = sizeNo + "px";
+
+      if (noClicks === 1) {
+        siButton.textContent = "tómate todo el tiempo del mundo, por ti espero hasta la infinidad y un minuto";
+        noButton.textContent = "lo seguiré pensando";
+      } else if (noClicks === 2) {
+        siButton.textContent = "YAPOOOOO";
+        noButton.textContent = "estoy dudando, no se si quiero decir que si";
+      } else if (noClicks === 3) {
+        siButton.textContent = "wash my belly? ramen? intp 5w4?";
+        noButton.textContent = "creo que quiero terminar";
+      } else if (noClicks >= 4) {
+        siButton.style.position = "fixed";
+        siButton.style.top = "0";
+        siButton.style.left = "0";
+        siButton.style.width = "100%";
+        siButton.style.height = "100%";
+        siButton.style.fontSize = "40px";
+        siButton.textContent = "Mentira, te amo";
+        noButton.style.display = "none";
+      }
+      mensaje.textContent = "";
+    });
+
+    resetButton.addEventListener("click", resetPage);
+
+    // Generar corazones flotando
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+      document.getElementById("hearts").appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 7000);
+    }
+    setInterval(createHeart, 800);
+  </script>
+</body>
+</html>
